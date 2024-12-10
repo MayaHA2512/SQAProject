@@ -1,26 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>    
-    <title>Blog Home</title>  
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">  
-</head>
-<body>
-    <header>
-        <h1>Blog with Flask</h1>
-        <nav class="navbar">
-            <ul>
-                <li><a href="">Home</a></li>
-                <li><a href="">Create Post</a></li>
-                <li><a href="">Stats</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <ul>
-            {% for post in posts %}
-                <li><a href="{{ url_for('post',post_id=post.id) }}">{{ post.title }} by {{ post.author}} ({{ post.created_at }})</a></li>
-            {% endfor %}
-        </ul>     
-    </main>
-</body>
-</html>
+{% set title = "Blog Posts" %}
+{% extends 'base.html' %}
+
+{% block content %}
+    <ul>
+        {% for post in posts %}
+        <li><a href="{{ url_for('post',post_id=post.id) }}">{{ post.title }} by {{ post.author}} ({{ post.created_at }})</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}
