@@ -1,5 +1,12 @@
 from flask import Flask, render_template
+from models import BlogPost, db
+
 app = Flask(__name__)
+app.config.from_object('config')  # Load configuration from config.py and particularly the DBMS URI
+
+with app.app_context():
+    db.init_app(app)  # It connects the SQLAlchemy db object with the Flask app and the DBMS engine
+    db.create_all()  # Create the database tables for all the models
 
 posts = [
     {
@@ -35,7 +42,5 @@ def post(post_id):
     for post in posts:
         if(post["id"] == str(post_id)):
             post_to_display=post
-            break
-    print(post)
-    print("hi")
+            break  
     return render_template("post.html", post=post_to_display)
