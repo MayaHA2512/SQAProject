@@ -65,3 +65,7 @@ def stats():
         min_length=min(post_lengths),
         total_length=sum(post_lengths),
     )
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
