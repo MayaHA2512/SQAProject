@@ -31,3 +31,23 @@ def create_post_action():
 def post(post_id):
     post = BlogPost.query.get_or_404(post_id)
     return render_template("post.html", post=post)
+
+@app.route("/edit/<int:post_id>", methods=["GET"])
+def edit_page(post_id):
+    post = BlogPost.query.get_or_404(post_id)
+    return render_template("edit.html", post=post)
+
+@app.route("/edit/<int:post_id>", methods=["POST"])
+def edit_action(post_id):
+    post = BlogPost.query.get_or_404(post_id)
+    post.title = request.form["title"]
+    post.content = request.form["content"]
+    db.session.commit()
+    return redirect(url_for("post", post_id=post.id))
+
+@app.route("/delete/<int:post_id>", methods=["POST"])
+def delete_action(post_id):
+    post = BlogPost.query.get_or_404(post_id)
+    db.session.delete(post)
+    db.session.commit()
+    return redirect(url_for("index"))
