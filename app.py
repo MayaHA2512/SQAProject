@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from models import BlogPost, db
 from statistics import median, mean
-
+testing = True
 app = Flask(__name__)
 app.config.from_object('config')  # Load configuration from config.py and particularly the DBMS URI
 
