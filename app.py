@@ -1,9 +1,14 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from models import BlogPost, db
 from statistics import median, mean
+import logging
+
+logger = logging.getLogger('__logger__')
+
 testing = True
 app = Flask(__name__)
 app.config.from_object('config')  # Load configuration from config.py and particularly the DBMS URI
+app.secret_key = "yrewrwerwjroweirj" # needed to do flash
 
 with app.app_context():
     db.init_app(app)  # It connects the SQLAlchemy db object with the Flask app and the DBMS engine
@@ -56,15 +61,20 @@ def delete_action(post_id):
 @app.route("/stats")
 def stats():
     post_lengths = BlogPost.get_post_lengths()
+    if post_lengths:
+        return render_template(
+            "stats.html",
+            average_length=mean(post_lengths),
+            median_length=median(post_lengths),
+            max_length=max(post_lengths),
+            min_length=min(post_lengths),
+            total_length=sum(post_lengths),
+        )
+    else:
+        logger.info('Failed to get stats: no posts available')
+        flash('Failed to get stats: no posts available', "danger")
+        return render_template("index.html")
 
-    return render_template(
-        "stats.html",
-        average_length=mean(post_lengths),
-        median_length=median(post_lengths),
-        max_length=max(post_lengths),
-        min_length=min(post_lengths),
-        total_length=sum(post_lengths),
-    )
 
 
 if __name__ == "__main__":
