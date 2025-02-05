@@ -7,7 +7,7 @@ app.config.from_object('config')  # Load configuration from config.py and partic
 
 with app.app_context():
     db.init_app(app)  # It connects the SQLAlchemy db object with the Flask app and the DBMS engine
-    db.create_all()  # Create the database tables for all the models
+    db.create_all()  # Create the database tables for all the models testing
 
 @app.route("/")
 def index():
