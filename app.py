@@ -36,24 +36,26 @@ class BlogApp(Flask):
             return author[0]
 
     def setup_routes(self):
+
+        @self.app.route("/home")
+        def home():
+            return render_template("index.html", posts=BlogPost.query.all())
+
         @self.app.route("/", methods=["GET", "POST"])
-        def index():
+        def login():
             if request.method == "POST":
                 username = request.form["username"]
                 password = request.form["password"]
                 author = self.check_credentials(username, password)
                 self.user = author
                 if author:
-                    return render_template('index.html')
+                    return render_template('index.html', posts=BlogPost.query.all())
                 else:
                     self.logger.info('User does not exist')
                     flash('Failed to get stats: no posts available', "danger")
                     return render_template("login.html")
             return render_template("login.html")
 
-        @self.app.route("/login")
-        def login():
-            return render_template("login.html")
 
         @self.app.route("/register", methods=["GET", "POST"])
         def register():
@@ -73,14 +75,21 @@ class BlogApp(Flask):
 
         @self.app.route("/create", methods=["POST"])
         def create_post_action():
+            author = request.form["author"]  # Make sure you pass the author ID, not the name # Fetch the Author object by ID
+            author = [author for author in Author.query.all() if author.name == 'testuser'][0]
+            if not [author for author in Author.query.all() if author.name == 'testuser']:
+                flash("Author not found", "danger")
+                return redirect(url_for("create_post_page"))
+
             post = BlogPost(
                 title=request.form["title"],
                 content=request.form["content"],
-                author=request.form["author"],
+                author=author,  # Pass the Author object instead of its ID
             )
             db.session.add(post)
             db.session.commit()
-            return redirect(url_for("index"))
+            flash("Post Created", "success")  # Flash a success message
+            return render_template('index.html', posts=BlogPost.query.all())
 
         @self.app.route("/post/<int:post_id>")
         def post(post_id):
@@ -105,7 +114,7 @@ class BlogApp(Flask):
             post = BlogPost.query.get_or_404(post_id)
             db.session.delete(post)
             db.session.commit()
-            return redirect(url_for("index"))
+            return render_template('index.html', posts=BlogPost.query.all())
 
         @self.app.route("/stats")
         def stats():
@@ -122,10 +131,10 @@ class BlogApp(Flask):
             else:
                 self.logger.info('Failed to get stats: no posts available')
                 flash('Failed to get stats: no posts available', "danger")
-                return render_template("index.html")
+                return render_template('index.html', posts=BlogPost.query.all())
 
     def run(self, debug=True):
-        self.app.run(debug=debug)
+        self.app.run(debug=debug, port=7000)
 
 
 if __name__ == "__main__":
