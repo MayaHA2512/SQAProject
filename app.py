@@ -1,13 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from models import BlogPost, db, Author
+import config
 from statistics import median, mean
 import logging
 from decryptor import key
 from cryptography.fernet import Fernet
 
-class BlogApp:
+class BlogApp(Flask):
     def __init__(self):
         self.app = Flask(__name__)
+        self.config = config
         self.app.config.from_object('config')  # Load configuration from config.py
         self.app.secret_key = "yrewrwerwjroweirj"  # Needed for flash messages
         self.user = None
