@@ -2,7 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from models import BlogPost, db, Author
 from statistics import median, mean
 import logging
-
+from decryptor import key
+from cryptography.fernet import Fernet
 
 class BlogApp:
     def __init__(self):
@@ -11,6 +12,7 @@ class BlogApp:
         self.app.secret_key = "yrewrwerwjroweirj"  # Needed for flash messages
         self.user = None
         self.logger = logging.getLogger('__logger__')
+        self.fernet_suite = Fernet(key)
 
         with self.app.app_context():
             db.init_app(self.app)
@@ -19,7 +21,11 @@ class BlogApp:
         self.setup_routes()
 
     def encrypt_password(self, password):
-        pass
+        return self.fernet_suite.encrypt(bytes(password, 'utf-8')) # TODO: Wrap in try except
+
+    def decrypt_password(self, password):
+        password = self.fernet_suite.decrypt(password)
+        return password.decode('utf-8')
 
     def setup_routes(self):
         @self.app.route("/", methods=["GET", "POST"])
@@ -27,7 +33,6 @@ class BlogApp:
             if request.method == "POST":
                 username = request.form["username"]
                 password = request.form["password"]
-
                 if username == "foo_user":  # Example check
                     self.user = username
                     return render_template("login.html")
@@ -46,10 +51,11 @@ class BlogApp:
             if request.method == "POST":
                 username = request.form["username"]
                 password = request.form["password"]
-                author = Author(name=username, password=password)
+                encrypted_password = self.encrypt_password(password)
+                author = Author(name=username, password=encrypted_password)
                 db.session.add(author)
                 db.session.commit()
-                return render_template("index.html")
+                return render_template("login.html")
             return render_template("register.html")
 
         @self.app.route("/create", methods=["GET"])

@@ -18,7 +18,7 @@ class BlogPost(db.Model):
 
 class Author(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    password = db.Column(db.String, nullable=False) # TODO: encrypt this maybe using ferret
+    password = db.Column(db.String(100), nullable=False) # TODO: encrypt this maybe using ferret
     name = db.Column(db.String(100), nullable=False, unique=True)
     posts = db.relationship('BlogPost', backref='author', lazy=True)  # One-to-Many relationship
 
