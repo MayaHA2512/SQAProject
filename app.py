@@ -27,15 +27,22 @@ class BlogApp:
         password = self.fernet_suite.decrypt(password)
         return password.decode('utf-8')
 
+    def check_credentials(self, username, password):
+        authors = Author.query.all()
+        author = [author for author in authors if author.name == username and self.decrypt_password(author.password) == password]
+        if author:
+            return author[0]
+
     def setup_routes(self):
         @self.app.route("/", methods=["GET", "POST"])
         def index():
             if request.method == "POST":
                 username = request.form["username"]
                 password = request.form["password"]
-                if username == "foo_user":  # Example check
-                    self.user = username
-                    return render_template("login.html")
+                author = self.check_credentials(username, password)
+                self.user = author
+                if author:
+                    return render_template('index.html')
                 else:
                     self.logger.info('User does not exist')
                     flash('Failed to get stats: no posts available', "danger")
