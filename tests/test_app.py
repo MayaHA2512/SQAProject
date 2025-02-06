@@ -44,10 +44,10 @@ def test_register(client):
 def test_login(client):
     """Test if the login page works and the user can log in."""
     # Register first
-    client.post("/", data={"username": "testuser1", "password": "testpassword1"})
+    client.post("/", data={"username": "testuser3", "password": "testpassword3"})
 
     # Test login with the new user
-    response = client.post("/", data={"username": "testuser", "password": "testpassword"})
+    response = client.post("/", data={"username": "testuser3", "password": "testpassword3"})
     assert response.status_code == 200
     assert b"Create Post" in response.data  # After login, the index page should show "Create Post"
 
