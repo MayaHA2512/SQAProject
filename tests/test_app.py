@@ -73,8 +73,8 @@ def test_create_post(client):
     })
 
     # Check if the post was created and the page redirected as expected
-    assert response.status_code == 200  # Should be a redirect after creating the post
-    assert b"Post Created" in response.data  # Verify success message or page content
+    assert response.status_code == 302  # Should be a redirect after creating the post
+    assert b"You should be redirected" in response.data  # Verify success message or page content
 
 
 
