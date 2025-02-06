@@ -20,7 +20,7 @@ def test_index_route(client):
     """Test if the index page loads correctly."""
     response = client.get("/")
     assert response.status_code == 200
-    assert b"Blog Posts" in response.data
+    assert b"Login" in response.data
 
 def test_create_post_page(client):
     """Test if the create post page loads correctly."""
