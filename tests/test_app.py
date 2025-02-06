@@ -1,7 +1,7 @@
 import pytest
 from app import BlogApp  # Assuming BlogApp is your class
 import random
-from models import Author, BlogPost
+from models import Author, BlogPost, db
 
 # --- Fixtures ---
 @pytest.fixture
@@ -59,6 +59,11 @@ def test_create_post(client):
 
     # Fetch the user from the database to avoid the 'str' issue
     user = Author.query.filter_by(name="testuser3").first()
+    if not user:
+        # Create a new test user
+        test_user = Author(name="testuser3", password="testpassword3")  # Ensure this password is encrypted if needed
+        db.session.add(test_user)
+        db.session.commit()
 
     # Create a post with the User instance as the author
     response = client.post("/create", data={
