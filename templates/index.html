@@ -15,7 +15,9 @@
 
     <ul>
         {% for post in posts %}
+        <div class="post">
         <li><a href="{{ url_for('post',post_id=post.id) }}">{{ post.title }} by {{ post.author}} ({{ post.created_at }})</a></li>
-        {% endfor %}
+        </div>
+            {% endfor %}
     </ul>
 {% endblock %}

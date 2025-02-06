@@ -18,6 +18,14 @@ with app.app_context():
 def index():
     return render_template("index.html", posts=BlogPost.query.all())
 
+@app.route("/login")
+def login():
+    return render_template("login.html")
+
+@app.route("/register")
+def register():
+    return render_template("register.html")
+
 @app.route("/create", methods=["GET"])
 def create_post_page():
     return render_template("create.html")
