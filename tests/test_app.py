@@ -61,8 +61,8 @@ def test_create_post(client):
     user = Author.query.filter_by(name="testuser3").first()
     if not user:
         # Create a new test user
-        test_user = Author(name="testuser3", password="testpassword3")  # Ensure this password is encrypted if needed
-        db.session.add(test_user)
+        user = Author(name="testuser3", password="testpassword3")  # Ensure this password is encrypted if needed
+        db.session.add(user)
         db.session.commit()
 
     # Create a post with the User instance as the author
