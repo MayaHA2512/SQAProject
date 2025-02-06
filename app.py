@@ -14,9 +14,20 @@ with app.app_context():
     db.init_app(app)  # It connects the SQLAlchemy db object with the Flask app and the DBMS engine
     db.create_all()  # Create the database tables for all the models testing
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def index():
-    return render_template("index.html", posts=BlogPost.query.all())
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        # Check if username exists and password matches
+        if username == 3:
+            return render_template("login.html")  # Redirect to dashboard if valid
+        else:
+            flash('Failed to get stats: no posts available', "danger")
+            return render_template("login.html") # Redirect to error page if invalid
+
+    return render_template("login.html")
 
 @app.route("/login")
 def login():
