@@ -75,8 +75,8 @@ class BlogApp(Flask):
 
         @self.app.route("/create", methods=["POST"])
         def create_post_action():
-            author = request.form["author"]  # Make sure you pass the author ID, not the name # Fetch the Author object by ID
-            author = [author for author in Author.query.all() if author.name == author]
+            form_author = request.form["author"]  # Make sure you pass the author ID, not the name # Fetch the Author object by ID
+            author = [author for author in Author.query.all() if author.name == form_author]
             if not author:
                 flash("Author not found", "danger")
                 return redirect(url_for("create_post_page"))
