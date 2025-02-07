@@ -63,7 +63,7 @@ def test_create_post(client):
     user = Author.query.filter_by(name="testuser3").first()
     if not user:
         # Create a new test user
-        user = Author(name="testuser3", password="testpassword3")  # Ensure this password is encrypted if needed
+        user = Author(name="testuser3", password=app.fernet_suite.encrypt(b"testing1"))  # Ensure this password is encrypted if needed
         db.session.add(user)
         db.session.commit()
 
@@ -83,7 +83,7 @@ def test_post_by_user(client, app):
     with app.app_context():
         user = Author.query.filter_by(name="testing1").first()
         if not user:
-            user = Author(name="testing1", password="testing1")
+            user = Author(name="testing1", password=app.fernet_suite.encrypt(b"testing1"))
             db.session.add(user)
             db.session.commit()
 
