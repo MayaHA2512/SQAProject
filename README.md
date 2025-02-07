@@ -12,9 +12,9 @@ This is a Flask web application that enables users to upload, delete, and edit p
 - [Contributing](#Contributing)
 - [Contributions](#Contributions)
 - [Features](#Features)
-- [Challenges and Solutions](#ChallengesandSolutions)
-- [Evidence for Marking Criteria](#EvidenceforMarkingCriteria)
-- [DB Configuration](#DBConfiguration)
+- [Challenges and Solutions](#Challenges and Solutions)
+- [Evidence for Marking Criteria](#Evidence for Marking Criteria)
+- [DB Configuration](#DB Configuration)
 
 
 
@@ -434,3 +434,9 @@ To ensure code quality and stability, GitHub Actions is used to automatically ru
 4. Linting using Pep8 to enforce coding standards
 5. This ensures that only tested and properly formatted code is merged.
 
+![djdoiwq](https://github.com/user-attachments/assets/ae34be6d-0cad-48b5-b433-a5d1253a4fd3)
+
+**Summary**
+### **Conclusion**  
+
+This project successfully implements a secure and scalable blogging platform with **user authentication, role-based access control, and security enhancements**. By following **best practices in coding, testing, and CI/CD**, the application ensures maintainability, reliability, and security. The use of **modular design, automated testing, and a structured database** makes it adaptable for future improvements. Overall, this project demonstrates a well-structured and secure approach to web development using Flask.
