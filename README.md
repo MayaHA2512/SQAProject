@@ -12,7 +12,7 @@ This is a Flask web application that enables users to upload, delete, and edit p
 - [Contributing](#Contributing)
 - [Contributions](#Contributions)
 - [Features](#Features)
-- [Challenges and Solutions](#Challenges and Solutions)
+- [Challenges and Solutions](#challenges-and-solutions)
 - [Evidence for Marking Criteria](#Evidence for Marking Criteria)
 - [DB Configuration](#DB Configuration)
 
@@ -94,7 +94,7 @@ This project was completed individually by [Your Name]. All aspects of the appli
 - **CRUD Operations**: Users can create, edit, and delete blog posts.
 - **Role-Based Access Control**: Only the author can edit or delete their own posts.
 
-## Challenges and Solutions
+##<h2 id="challenges-and-solutions">Challenges and Solutions</h2>
 
 Throughout the development process, I faced a few key challenges that required careful consideration and problem-solving.
 
