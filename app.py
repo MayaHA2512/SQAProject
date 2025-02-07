@@ -6,11 +6,10 @@ import logging
 from decryptor import key
 from cryptography.fernet import Fernet
 
-app = Flask(__name__)
 
 class BlogApp(Flask):
     def __init__(self):
-        self.app = app
+        self.app = Flask(__name__)
         self.config = config
         self.app.config.from_object('config')  # Load configuration from config.py
         self.app.secret_key = "yrewrwerwjroweirj"  # Needed for flash messages
