@@ -290,3 +290,83 @@ Edge Cases & Error Handling
 3. Testing Authentication Scenarios:
    Attempted to access a protected route without logging in (expected redirect to login page).
 
+**Implemented Security Measures**
+
+Password Encryption with Fernet
+
+User passwords are encrypted before being stored using Fernet encryption from the cryptography library.
+The encryption and decryption functions are in app.py:
+
+```python
+
+def encrypt_password(self, password):
+    return self.fernet_suite.encrypt(bytes(password, 'utf-8'))
+
+def decrypt_password(self, password):
+    password = self.fernet_suite.decrypt(password)
+    return password.decode('utf-8')
+
+```
+
+This ensures that even if the database is compromised, passwords remain unreadable.
+
+
+**Role-Based Access Control (RBAC)**
+
+Only the original author of a blog post can edit or delete it.
+In edit_page and delete_action, the app checks if the logged-in user is the author before allowing modifications:
+
+```python
+if post in self.posts_by_user():
+    return render_template("edit.html", post=post, user=self.user)
+else:
+    flash('You are attempting to edit a post that was created by another user', 'danger')
+    return redirect(url_for("post", post_id=post.id))
+
+```
+This prevents unauthorized users from tampering with others' posts.
+
+**Flash Message Input Validation**
+
+When registering, the app checks if a username already exists and flashes an error message:
+
+```python
+existing_user = Author.query.filter_by(name=username).first()
+if existing_user:
+    flash("Username already exists. Please choose another.", "danger")
+    return redirect(url_for("register"))
+
+```
+
+**seesion management**
+
+Users must log in before creating, editing, or deleting posts. The app maintains session security by clearing self.user on logout:
+
+Login (Note that we set self.user to the logged in user upon logout as part of session management):
+
+```python
+@self.app.route("/", methods=["GET", "POST"])
+        def login():
+            if request.method == "POST":
+                username = request.form["username"]
+                password = request.form["password"]
+                author = self.check_credentials(username, password)
+                self.user = author
+                if author:
+                    return render_template('index.html', posts=self.posts(), user=self.user)
+                else:
+                    self.logger.info('User does not exist')
+                    flash('Something went wrong: either username or password are incorrect', "danger")
+                    return render_template("login.html")
+            return render_template("login.html")
+```
+
+logout (Note that we reset self.user to None upon logout as part of session management):
+
+```python
+
+ @self.app.route("/logout")
+        def logout():
+            self.user = None  # Clear the user object
+            return redirect(url_for("login"))  # Redirect to homepage or login
+```
