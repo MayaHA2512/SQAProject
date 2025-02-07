@@ -404,4 +404,22 @@ File Structure:
 
 ![file_organisation](https://github.com/user-attachments/assets/4535e6c8-32c2-40e6-8ec3-1056d041ea63)
 
+Code refactoring:
+My check_credentials() method is doing a full table scan so I optimizeD with a direct query:
 
+Before:
+```python
+    def check_credentials(self, username, password):
+        authors = Author.query.all()
+        author = [author for author in authors if author.name == username and self.decrypt_password(author.password) == password]
+        if author:
+            return author[0]
+```
+
+After:
+```python
+ def check_credentials(self, username, password):
+        author = Author.query.filter_by(name=username).first()
+        if author and self.decrypt_password(author.password) == password:
+            return author
+```
