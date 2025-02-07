@@ -11,7 +11,7 @@ class BlogPost(db.Model):
     title = db.Column(db.String(100), nullable=False)
     content = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    author_id = db.Column(db.Integer, db.ForeignKey('author.id'), nullable=False)  # Foreign Key
+    author_id = db.Column(db.String(100), db.ForeignKey('author.name'), nullable=False)  # Foreign Key
 
     def __str__(self):
         return f'"{self.title}" by {self.author} ({self.created_at:%Y-%m-%d})'

@@ -54,7 +54,7 @@ def test_create_post(client):
     """Test creating a post after login."""
 
     # Now login with the new user's credentials
-    response = client.post("/", data={"username": "testuser3", "password": "testpassword3"})
+    response = client.post("/", data={"username": "testing1", "password": "testing1"})
     assert response.status_code == 200  # Check successful login
 
     # Fetch the user from the database to avoid the 'str' issue
@@ -69,12 +69,12 @@ def test_create_post(client):
     response = client.post("/create", data={
         "title": "foo",
         "content": "fe",
-        "author": user.id  # Pass author_id, not the author object itself
+        "author": user.name  # Pass author_id, not the author object itself
     })
 
     # Check if the post was created and the page redirected as expected
-    assert response.status_code == 302  # Should be a redirect after creating the post
-    assert b"You should be redirected" in response.data  # Verify success message or page content
+    assert response.status_code == 200  # Should be a redirect after creating the post
+    assert b"Post Created" in response.data  # Verify success message or page content
 
 
 

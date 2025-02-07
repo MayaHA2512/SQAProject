@@ -35,11 +35,17 @@ class BlogApp(Flask):
         if author:
             return author[0]
 
+    def posts(self):
+        return BlogPost.query.all()
+
+    def posts_by_user(self):
+        return [post for post in self.posts if post.author_id == self.user.name]
+
     def setup_routes(self):
 
         @self.app.route("/home")
         def home():
-            return render_template("index.html", posts=BlogPost.query.all())
+            return render_template("index.html", posts=self.posts())
 
         @self.app.route("/", methods=["GET", "POST"])
         def login():
@@ -49,7 +55,7 @@ class BlogApp(Flask):
                 author = self.check_credentials(username, password)
                 self.user = author
                 if author:
-                    return render_template('index.html', posts=BlogPost.query.all())
+                    return render_template('index.html', posts=self.posts())
                 else:
                     self.logger.info('User does not exist')
                     flash('Failed to get stats: no posts available', "danger")
@@ -89,7 +95,7 @@ class BlogApp(Flask):
             db.session.add(post)
             db.session.commit()
             flash("Post Created", "success")  # Flash a success message
-            return render_template('index.html', posts=BlogPost.query.all())
+            return render_template('index.html', posts=self.posts())
 
         @self.app.route("/post/<int:post_id>")
         def post(post_id):
@@ -131,7 +137,7 @@ class BlogApp(Flask):
             else:
                 self.logger.info('Failed to get stats: no posts available')
                 flash('Failed to get stats: no posts available', "danger")
-                return render_template('index.html', posts=BlogPost.query.all())
+                return render_template('index.html', posts=self.posts())
 
     def run(self, debug=True):
         self.app.run(debug=debug, port=7000)
