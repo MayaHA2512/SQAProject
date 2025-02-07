@@ -270,3 +270,23 @@ Code coverage:
 
 ![TESTING2](https://github.com/user-attachments/assets/e13d1c1a-5090-40ca-b0b9-880c77fbbcc7)
 
+Testing Strategies
+I followed a Test-Driven Development (TDD) approach, where tests were written before implementing the corresponding features. This helped ensure that each feature met the expected requirements before writing production code.
+
+Example:
+1. Wrote a test to check that authors can only edit their posts.
+2. Implemented the feature in app.py.
+3. Ran the test to verify the implementation.
+
+Edge Cases & Error Handling
+1. Testing Unauthorized Access:
+   Tried editing/deleting posts as a reader (expected to be denied).
+   Tried editing/deleting posts as an author but for another user’s post (expected to be denied).
+   
+2. Testing Invalid Inputs:
+   Attempted to register with an existing username (expected to show an error message).
+   Tried submitting a post without a title/content (expected form validation error).
+
+3. Testing Authentication Scenarios:
+   Attempted to access a protected route without logging in (expected redirect to login page).
+
