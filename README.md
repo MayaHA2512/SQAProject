@@ -14,6 +14,7 @@ This is a Flask web application that enables users to upload, delete, and edit p
 - [Features](#Features)
 - [Challenges and Solutions](#ChallengesandSolutions)
 - [Evidence for Marking Criteria](#EvidenceforMarkingCriteria)
+- [DB Configuration](#DBConfiguration)
 
 
 
@@ -188,5 +189,44 @@ The authentication system allows users to register, log in, and access blog post
   ![Untitledrwerwerwr](https://github.com/user-attachments/assets/aa99b846-2b66-49cc-8f0a-b0d36c822f86)
 
   Unsuccessful login:
+  
+  ![Untitlederowerjweor](https://github.com/user-attachments/assets/4df90082-2f58-43d0-85c5-d6da2b589500)
 
   
+Code snippet:
+
+   ```python
+    @self.app.route("/", methods=["GET", "POST"])
+           def login():
+               if request.method == "POST":
+                   username = request.form["username"]
+                   password = request.form["password"]
+                   author = self.check_credentials(username, password)
+                   self.user = author
+                   if author:
+                       return render_template('index.html', posts=self.posts(), user=self.user)
+                   else:
+                       self.logger.info('User does not exist')
+                       flash('Something went wrong: either username or password are incorrect', "danger")
+                       return render_template("login.html")
+               return render_template("login.html")
+   
+   ```
+
+**Role Baaed Access control (RBAC)**
+
+In this project, RBAC is implemented to control who can edit and delete posts.
+
+- Authors can edit or delete only their posts.
+- Readers (regular users) cannot edit or delete any posts.
+
+You can see if I am logged in as 'mayaisalegend2', I cannot delete a post by testing1:
+
+![Untitleddqiodjqdi](https://github.com/user-attachments/assets/366df65f-3764-4649-927d-9673563ddd23)
+
+![Untitleddqiodqjdqw](https://github.com/user-attachments/assets/7e353096-99bf-47e6-8b91-8220d0671198)
+
+
+
+
+
