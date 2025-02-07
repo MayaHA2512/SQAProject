@@ -226,7 +226,48 @@ You can see if I am logged in as 'mayaisalegend2', I cannot delete a post by tes
 
 ![Untitleddqiodqjdqw](https://github.com/user-attachments/assets/7e353096-99bf-47e6-8b91-8220d0671198)
 
+Code Snippet:
+
+```python
+@self.app.route("/edit/<int:post_id>", methods=["GET"])
+        def edit_page(post_id):
+            post = BlogPost.query.get_or_404(post_id)
+            if post in self.posts_by_user():
+                return render_template("edit.html", post=post, user=self.user)
+            else:
+                flash('You are attempting to edit a post that was created by another user', 'danger')
+                return redirect(url_for("post", post_id=post.id))
+
+```
+
+Demo video:
 
 
 
+https://github.com/user-attachments/assets/9fe5606c-d15b-4386-bf04-ed288b2c946d
+
+**Testing Evidence**
+
+Testing Approach
+
+For testing, I used pytest to write both unit tests and integration tests to ensure the correct functionality of role-based access control (RBAC) and user authentication.
+
+Unit Tests: Focused on individual functions such as user authentication, role assignments, and permission checks.
+Integration Tests: Tested end-to-end functionality of key features, including user login, post creation, editing, and deletion based on roles.
+Test Files & Coverage
+
+Unit Tests: Located in tests/test_models.py and tests/test_auth.py
+Integration Tests: Located in tests/test_routes.py
+Test Coverage Report: Achieved XX% coverage (update with actual percentage).
+
+Tests passing:
+
+![testing_ev](https://github.com/user-attachments/assets/2c8cfadf-c60b-41dd-8a57-c353d5db4ba8)
+
+Code coverage:
+
+![testing](https://github.com/user-attachments/assets/4e01dec3-7f9e-4a0e-9b08-f4b1471f7dc4)
+
+
+![TESTING2](https://github.com/user-attachments/assets/e13d1c1a-5090-40ca-b0b9-880c77fbbcc7)
 
