@@ -1,7 +1,8 @@
-# Quick Start
+# SQA Project
 
-Assuming that you have Python installed, you should be able to quickly run this application with the two commands below:
+**Project Overview**
 
+hi
 ```bash
 pip install -r requirements.txt
 flask run
