@@ -397,3 +397,11 @@ CREATE TABLE blog_post (
     FOREIGN KEY (author_id) REFERENCES author(name) ON DELETE CASCADE
 );
 ```
+
+**Code Quality and Refactoring Evidence**
+
+File Structure:
+
+![file_organisation](https://github.com/user-attachments/assets/4535e6c8-32c2-40e6-8ec3-1056d041ea63)
+
+
