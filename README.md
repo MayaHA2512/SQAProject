@@ -423,3 +423,14 @@ After:
         if author and self.decrypt_password(author.password) == password:
             return author
 ```
+
+**CI/CD and Git Practices Evidence**
+
+To ensure code quality and stability, GitHub Actions is used to automatically run tests and enforce best practices before merging any changes.
+
+1. Automated Testing with GitHub Actions
+2. Every pull request triggers a CI/CD pipeline that runs:
+3. Unit tests using pytest
+4. Linting using Pep8 to enforce coding standards
+5. This ensures that only tested and properly formatted code is merged.
+
