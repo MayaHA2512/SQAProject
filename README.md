@@ -125,6 +125,12 @@ The authentication system allows users to register, log in, and access blog post
    
    UI:
    ![Untitled 2](https://github.com/user-attachments/assets/f5442de1-9f2c-459d-9233-466b373ee625)
+   
+   ![Untitled4535](https://github.com/user-attachments/assets/60f2746f-05f5-45eb-9b66-401d87a692cc)
+
+   but if the account already exists:
+   
+   ![Untitledrewrerw](https://github.com/user-attachments/assets/fecdfaf2-d4e0-4f6c-a523-7a84ecf317e4)
 
    Code Snippet:
    ```python
@@ -157,3 +163,30 @@ The authentication system allows users to register, log in, and access blog post
 
    ````
 
+2. User Login:
+   Process Overview:
+   - To login, users enter their username and password.
+   - The entered password is decrypted and compared with the stored encrypted password.
+   - If the credentials are correct, the user is granted access to the homepage and can see the posts.
+   
+   Code Implementation:
+   - In the login route (/login), the application accepts the POST request and checks the credentials by calling the check_credentials method:
+     ```python
+     author = self.check_credentials(username, password)
+     ```
+   - Inside check_credentials, the provided password is decrypted using the decrypt_password method:
+     ```python
+     decrypted_password = self.decrypt_password(author.password)
+     ```
+   -  The login is successful if the decrypted password matches the entered password.
+
+  UI:
+
+  Successful
+  ![Untitledfeiofwejifewoi](https://github.com/user-attachments/assets/fc3f2f9e-86c7-4803-84e2-d37509d2c8cb)
+
+  ![Untitledrwerwerwr](https://github.com/user-attachments/assets/aa99b846-2b66-49cc-8f0a-b0d36c822f86)
+
+  Unsuccessful login:
+
+  
