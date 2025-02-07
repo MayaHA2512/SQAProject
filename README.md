@@ -258,7 +258,6 @@ Test Files & Coverage
 
 Unit Tests: Located in tests/test_models.py and tests/test_auth.py
 Integration Tests: Located in tests/test_routes.py
-Test Coverage Report: Achieved XX% coverage (update with actual percentage).
 
 Tests passing:
 
