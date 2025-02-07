@@ -370,3 +370,30 @@ logout (Note that we reset self.user to None upon logout as part of session mana
             self.user = None  # Clear the user object
             return redirect(url_for("login"))  # Redirect to homepage or login
 ```
+
+**DB Management**
+
+The application uses Flask-SQLAlchemy to manage the database, ensuring efficient data storage and retrieval. The primary entities in the system are Authors and BlogPosts, which maintain a one-to-many relationship.
+
+Authors Table
+Stores user credentials and author names.
+
+```SQL
+CREATE TABLE author (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL
+);
+```
+BlogPosts Table
+
+```SQL
+CREATE TABLE blog_post (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    content TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    author_id TEXT NOT NULL,
+    FOREIGN KEY (author_id) REFERENCES author(name) ON DELETE CASCADE
+);
+```
