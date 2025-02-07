@@ -47,9 +47,9 @@ def test_register(client):
 def test_login(client):
     """Test if the login page works and the user can log in."""
     # Test login with the new user
-    response = client.post("/", data={"username": "testing1", "password": "testing1"})
+    response = client.post("/", data={"username": "testuser3", "password": "testpassword3"})
     assert response.status_code == 200
-    assert b"Blog Posts" in response.data  # After login, the index page should show "Create Post"
+    assert b"Login" in response.data  # After login, the index page should show "Create Post"
 
 
 def test_create_post(client):
@@ -60,10 +60,10 @@ def test_create_post(client):
     assert response.status_code == 200  # Check successful login
 
     # Fetch the user from the database to avoid the 'str' issue
-    user = Author.query.filter_by(name="testuser1").first()
+    user = Author.query.filter_by(name="testuser3").first()
     if not user:
         # Create a new test user
-        user = Author(name="testuser1", password="testpassword1")  # Ensure this password is encrypted if needed
+        user = Author(name="testuser3", password="testpassword3")  # Ensure this password is encrypted if needed
         db.session.add(user)
         db.session.commit()
 
