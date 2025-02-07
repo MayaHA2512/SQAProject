@@ -71,7 +71,7 @@ def test_create_post(client):
         "content": "fe",
         "author": user.name  # Pass author_id, not the author object itself
     })
-
+    # TODO: Add logic to wipe these after the test
     # Check if the post was created and the page redirected as expected
     assert response.status_code == 200  # Should be a redirect after creating the post
     assert b"Post Created" in response.data  # Verify success message or page content

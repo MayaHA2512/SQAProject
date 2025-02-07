@@ -181,3 +181,13 @@ button:hover {
 /* Edit Styles */
 button[type="submit"] {
     background-color: #28
+
+.register-text {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.register-text a {
+    margin-left: 5px;
+    text-decoration: none;
+}

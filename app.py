@@ -39,13 +39,13 @@ class BlogApp(Flask):
         return BlogPost.query.all()
 
     def posts_by_user(self):
-        return [post for post in self.posts if post.author_id == self.user.name]
+        return [post for post in self.posts() if post.author_id == self.user.name]
 
     def setup_routes(self):
 
         @self.app.route("/home")
         def home():
-            return render_template("index.html", posts=self.posts())
+            return render_template("index.html", posts=self.posts(), user=self.user)
 
         @self.app.route("/", methods=["GET", "POST"])
         def login():
@@ -55,7 +55,7 @@ class BlogApp(Flask):
                 author = self.check_credentials(username, password)
                 self.user = author
                 if author:
-                    return render_template('index.html', posts=self.posts())
+                    return render_template('index.html', posts=self.posts(), user=self.user)
                 else:
                     self.logger.info('User does not exist')
                     flash('Failed to get stats: no posts available', "danger")
@@ -75,13 +75,18 @@ class BlogApp(Flask):
                 return render_template("login.html")
             return render_template("register.html")
 
+        @self.app.route("/logout")
+        def logout():
+            self.user = None  # Clear the user object
+            return redirect(url_for("login"))  # Redirect to homepage or login
+
         @self.app.route("/create", methods=["GET"])
         def create_post_page():
-            return render_template("create.html")
+            return render_template("create.html", user=self.user)
 
         @self.app.route("/create", methods=["POST"])
         def create_post_action():
-            form_author = request.form["author"]  # Make sure you pass the author ID, not the name # Fetch the Author object by ID
+            form_author = request.form["author"]
             author = [author for author in Author.query.all() if author.name == form_author]
             if not author:
                 flash("Author not found", "danger")
@@ -95,17 +100,21 @@ class BlogApp(Flask):
             db.session.add(post)
             db.session.commit()
             flash("Post Created", "success")  # Flash a success message
-            return render_template('index.html', posts=self.posts())
+            return render_template('index.html', posts=self.posts(), user=self.user)
 
         @self.app.route("/post/<int:post_id>")
         def post(post_id):
             post = BlogPost.query.get_or_404(post_id)
-            return render_template("post.html", post=post)
+            return render_template("post.html", post=post, user=self.user)
 
         @self.app.route("/edit/<int:post_id>", methods=["GET"])
         def edit_page(post_id):
             post = BlogPost.query.get_or_404(post_id)
-            return render_template("edit.html", post=post)
+            if post in self.posts_by_user():
+                return render_template("edit.html", post=post, user=self.user)
+            else:
+                flash('You are attempting to edit a post that was created by another user', 'danger')
+                return redirect(url_for("post", post_id=post.id))
 
         @self.app.route("/edit/<int:post_id>", methods=["POST"])
         def edit_action(post_id):
@@ -120,7 +129,7 @@ class BlogApp(Flask):
             post = BlogPost.query.get_or_404(post_id)
             db.session.delete(post)
             db.session.commit()
-            return render_template('index.html', posts=BlogPost.query.all())
+            return render_template('index.html', posts=BlogPost.query.all(), user=self.user)
 
         @self.app.route("/stats")
         def stats():
@@ -133,11 +142,12 @@ class BlogApp(Flask):
                     max_length=max(post_lengths),
                     min_length=min(post_lengths),
                     total_length=sum(post_lengths),
+                    user=self.user
                 )
             else:
                 self.logger.info('Failed to get stats: no posts available')
                 flash('Failed to get stats: no posts available', "danger")
-                return render_template('index.html', posts=self.posts())
+                return render_template('index.html', posts=self.posts(), user=self.user)
 
     def run(self, debug=True):
         self.app.run(debug=debug, port=7000)
