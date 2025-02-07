@@ -13,9 +13,11 @@ This is a Flask web application that enables users to upload, delete, and edit p
 - [Contributions](#Contributions)
 - [Features](#Features)
 - [Challenges and Solutions](#challenges-and-solutions)
-- [Evidence for Marking Criteria](#Evidence for Marking Criteria)
-- [DB Configuration](#DB Configuration)
-
+- [Evidence for Marking Criteria](#evidence-for-marking-criteria)
+- [DB](#DB)
+- [Code Quality and Refactoring Evidence]
+- [CI/CD and Git Practices Evidence]
+- [Conclusion]
 
 
 ## Installation
@@ -94,7 +96,8 @@ This project was completed individually by [Your Name]. All aspects of the appli
 - **CRUD Operations**: Users can create, edit, and delete blog posts.
 - **Role-Based Access Control**: Only the author can edit or delete their own posts.
 
-##<h2 id="challenges-and-solutions">Challenges and Solutions</h2>
+
+<h2 id="challenges-and-solutions">Challenges and Solutions</h2>
 
 Throughout the development process, I faced a few key challenges that required careful consideration and problem-solving.
 
@@ -106,7 +109,8 @@ Throughout the development process, I faced a few key challenges that required c
 2. - Challenge: Comprehensive testing, especially for edge cases, was a challenge because it required thinking about potential user behavior and error scenarios. Writing tests for scenarios like invalid logins and incorrect post submissions needed careful consideration.
    - Solution: I wrote a comprehensive suite of unit and integration tests, ensuring edge cases were tested (e.g., invalid user credentials or unauthorized post modifications). This helped achieve high code coverage and ensure the application’s stability.
   
-## Evidence for Marking Criteria
+
+<h2 id="evidence-for-marking-criteria">Evidence for Marking Criteria</h2>
 
 **User Authentication**
 
@@ -371,7 +375,7 @@ logout (Note that we reset self.user to None upon logout as part of session mana
             return redirect(url_for("login"))  # Redirect to homepage or login
 ```
 
-**DB Management**
+## DB
 
 The application uses Flask-SQLAlchemy to manage the database, ensuring efficient data storage and retrieval. The primary entities in the system are Authors and BlogPosts, which maintain a one-to-many relationship.
 
@@ -436,7 +440,6 @@ To ensure code quality and stability, GitHub Actions is used to automatically ru
 
 ![djdoiwq](https://github.com/user-attachments/assets/ae34be6d-0cad-48b5-b433-a5d1253a4fd3)
 
-**Summary**
-### **Conclusion**  
+## **Conclusion**  
 
 This project successfully implements a secure and scalable blogging platform with **user authentication, role-based access control, and security enhancements**. By following **best practices in coding, testing, and CI/CD**, the application ensures maintainability, reliability, and security. The use of **modular design, automated testing, and a structured database** makes it adaptable for future improvements. Overall, this project demonstrates a well-structured and secure approach to web development using Flask.
