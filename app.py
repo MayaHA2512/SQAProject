@@ -6,9 +6,11 @@ import logging
 from decryptor import key
 from cryptography.fernet import Fernet
 
+app = Flask(__name__)
+
 class BlogApp(Flask):
     def __init__(self):
-        self.app = Flask(__name__)
+        self.app = app
         self.config = config
         self.app.config.from_object('config')  # Load configuration from config.py
         self.app.secret_key = "yrewrwerwjroweirj"  # Needed for flash messages
@@ -30,10 +32,9 @@ class BlogApp(Flask):
         return password.decode('utf-8')
 
     def check_credentials(self, username, password):
-        authors = Author.query.all()
-        author = [author for author in authors if author.name == username and self.decrypt_password(author.password) == password]
-        if author:
-            return author[0]
+        author = Author.query.filter_by(name=username).first()
+        if author and self.decrypt_password(author.password) == password:
+            return author
 
     def posts(self):
         return BlogPost.query.all()

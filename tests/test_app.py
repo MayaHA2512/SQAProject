@@ -123,5 +123,14 @@ def test_stats_no_posts(client):
         assert b"Failed to get stats: no posts available" in response.data
 
 
-
+def test_blogpost(client):
+    user = Author(name='testing1', password=b'gAAAAABnpgeHtk0oaCKuBMgwaTDTrXq64WYmPh-Ti7XZsuigiwTU9oHIcq5NjKwYisc2au_tuwcMFnQ4iB3tYUZEU3kB12HP4g==')
+    response = client.post("/create", data={
+        "title": "foo",
+        "content": "fe",
+        "author": user.name  # Pass author_id, not the author object itself
+    })
+    post = BlogPost.query.filter_by(title="foo").first()
+    t = post.__str__()
+    assert '"foo" by testuser3' in t
 
